@@ -1,0 +1,24 @@
+{
+  "name": "RecallMap: FSRS & PDF Study",
+  "short_name": "RecallMap",
+  "description": "Visual Spaced Repetition, Image Occlusion & Exam Map",
+  "id": "com.recallmap.app",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
+  "orientation": "any",
+  "categories": ["education", "productivity", "medical"],
+  "icons": [
+    {
+      "src": "icons/Icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
