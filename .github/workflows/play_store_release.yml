@@ -28,22 +28,38 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Flutter 3.24 Stable
+      - name: Set up Flutter 3.27.4 Stable
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.27.4'
           channel: 'stable'
           cache: true
 
-      - name: Ensure Android/iOS/Web Platform Wrapper Files Exist
+      - name: Bootstrap Clean Android/iOS/Web Platform Wrapper & Restore Custom Configs
         run: |
-          cp pubspec.yaml pubspec.yaml.bak
-          cp android/app/build.gradle android/app/build.gradle.bak
-          cp android/app/src/main/AndroidManifest.xml android/app/src/main/AndroidManifest.xml.bak
+          mkdir -p /tmp/recallmap_bak
+          cp -r lib /tmp/recallmap_bak/lib
+          cp pubspec.yaml /tmp/recallmap_bak/pubspec.yaml
+          cp android/app/build.gradle /tmp/recallmap_bak/app_build.gradle
+          cp android/app/proguard-rules.pro /tmp/recallmap_bak/proguard-rules.pro
+          cp android/app/src/main/AndroidManifest.xml /tmp/recallmap_bak/AndroidManifest.xml
+          cp android/app/src/main/kotlin/com/recallmap/app/MainActivity.kt /tmp/recallmap_bak/MainActivity.kt
+          cp web/index.html /tmp/recallmap_bak/index.html
+          cp web/manifest.json /tmp/recallmap_bak/manifest.json
+
+          rm -rf android ios web lib pubspec.yaml pubspec.lock test
           flutter create --org com.recallmap --project-name recallmap --platforms=android,ios,web .
-          mv pubspec.yaml.bak pubspec.yaml
-          mv android/app/build.gradle.bak android/app/build.gradle
-          mv android/app/src/main/AndroidManifest.xml.bak android/app/src/main/AndroidManifest.xml
-          rm -f test/widget_test.dart
+
+          rm -rf lib test
+          cp -r /tmp/recallmap_bak/lib lib
+          cp /tmp/recallmap_bak/pubspec.yaml pubspec.yaml
+          cp /tmp/recallmap_bak/app_build.gradle android/app/build.gradle
+          cp /tmp/recallmap_bak/proguard-rules.pro android/app/proguard-rules.pro
+          cp /tmp/recallmap_bak/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+          mkdir -p android/app/src/main/kotlin/com/recallmap/app
+          cp /tmp/recallmap_bak/MainActivity.kt android/app/src/main/kotlin/com/recallmap/app/MainActivity.kt
+          cp /tmp/recallmap_bak/index.html web/index.html
+          cp /tmp/recallmap_bak/manifest.json web/manifest.json
 
       - name: Install Dart & Flutter Dependencies
         run: flutter pub get
