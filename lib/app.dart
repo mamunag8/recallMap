@@ -4,7 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'core/constants/app_typography.dart';
 import 'core/constants/fsrs_constants.dart';
 import 'core/i18n/app_localizations.dart';
+import 'features/ai_card_bridge/ai_token_saver_screen.dart';
+import 'features/cloud_sync/sync_engine.dart';
+import 'features/creation_studio/inline_outliner_editor.dart';
 import 'features/layer1_cockpit/cockpit_home_screen.dart';
+import 'features/layer2_xray/pdf_split_studio_screen.dart';
+import 'features/layer3_inspector/card_deep_inspector_sheet.dart';
+import 'features/study_player/study_session_screen.dart';
 
 /// Active tab index provider for the unified RecallMap navigation shell.
 final activeShellTabProvider = StateProvider<int>((ref) => 0);
@@ -53,26 +59,36 @@ class RecallMapApp extends ConsumerWidget {
   }
 }
 
-/// Unified Multi-Layer Adaptive Navigation Shell for RecallMap.
-/// Connects Layer 1 Cockpit with Layer 2 X-Ray, Creation Studio, Study Player,
-/// AI Card Bridge, and BYOC Cloud Sync.
+/// Unified Multi-Layer Adaptive Navigation Shell for RecallMap (All 7 Phases Active).
 class RecallMapShell extends ConsumerWidget {
   const RecallMapShell({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = ref.watch(activeShellTabProvider);
+    final focusedPage = ref.watch(focusedPdfPageProvider);
     final l10n = ref.watch(l10nProvider);
 
     return Scaffold(
       body: IndexedStack(
         index: currentTab,
         children: [
-          // Tab 0: Layer 1 "At-a-Glance" Cockpit (Completed in Phase 1 & 2)
+          // Tab 0: Layer 1 "At-a-Glance" Cockpit
           CockpitHomeScreen(
             onNavigateToXRayForDeck: (deckId) {
               ref.read(focusedDeckIdProvider.notifier).state = deckId;
               ref.read(activeShellTabProvider.notifier).state = 1;
+            },
+            onInspectCardLayer3: (card) {
+              CardDeepInspectorSheet.show(
+                context,
+                card: card,
+                onJumpToFullPdfPage: () {
+                  ref.read(focusedPdfPageProvider.notifier).state =
+                      card.sourcePage ?? 1;
+                  ref.read(activeShellTabProvider.notifier).state = 1;
+                },
+              );
             },
             onStartHighYieldSession: () {
               ref.read(activeShellTabProvider.notifier).state = 3;
@@ -84,37 +100,26 @@ class RecallMapShell extends ConsumerWidget {
               ref.read(activeShellTabProvider.notifier).state = 1;
             },
           ),
-          // Tabs 1..5 will be wired with full implementations in Phases 3–7
-          _PhaseReadyView(
-            title: l10n.t('nav_xray'),
-            subtitle:
-                'Layer 2 & Layer 3: Split-Screen PDF Studio with Page Mastery Strip, 2D Concept RecallMap & DSR Curve Inspector (Phase 3)',
-            icon: Icons.hub_rounded,
+
+          // Tab 1: Layer 2 & Layer 3 Visual Zoom — Split-Screen PDF Studio with Page Mastery Strip & 2D Concept RecallMap
+          PdfSplitStudioScreen(
+            initialPage: focusedPage,
+            onStartTargetedStudy: (_) {
+              ref.read(activeShellTabProvider.notifier).state = 3;
+            },
           ),
-          _PhaseReadyView(
-            title: l10n.t('nav_create'),
-            subtitle:
-                'Zero-Typing Creation Studio: 1-Tap Auto-OCR Diagram Occlusion, PDF Highlight/Crop & Inline :: Outliner (Phase 4)',
-            icon: Icons.auto_fix_high_rounded,
-          ),
-          _PhaseReadyView(
-            title: l10n.t('nav_study'),
-            subtitle:
-                'Multi-Sensory Study Player: 4-Way Swipe Gestures, Transparent Scratchpad, LaTeX, Boss Battle & Offline TTS (Phase 5)',
-            icon: Icons.style_rounded,
-          ),
-          _PhaseReadyView(
-            title: l10n.t('nav_ai_bridge'),
-            subtitle:
-                'Zero-Cost AI Flashcard Bridge (Token-Saver + Clipboard Parser) & 2-Way Anki (.apkg) Interop (Phase 6)',
-            icon: Icons.bolt_rounded,
-          ),
-          _PhaseReadyView(
-            title: l10n.t('nav_sync_pro'),
-            subtitle:
-                'BYOC Cloud Sync (Google Drive, SAF/OPFS, WebDAV) & One-Time Pro Unlock (Phase 7)',
-            icon: Icons.cloud_sync_rounded,
-          ),
+
+          // Tab 2: Zero-Typing Creation Studio — 1-Tap Auto-OCR Diagram Occlusion & Inline :: Outliner
+          const InlineOutlinerEditor(),
+
+          // Tab 3: Multi-Sensory Active Recall Study Player (Gestures, Scratchpad, Boss Battle & Commute TTS)
+          const StudySessionScreen(),
+
+          // Tab 4: Zero-Cost AI Flashcard Generator Bridge (Token-Saver + Clipboard Parser) & 2-Way Anki (.apkg) Interop
+          const AiTokenSaverScreen(),
+
+          // Tab 5: BYOC Cross-Platform Cloud Sync (Google Drive, SAF/OPFS, WebDAV) & One-Time Pro Unlock
+          const SyncAndProScreen(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -153,55 +158,6 @@ class RecallMapShell extends ConsumerWidget {
             label: l10n.t('nav_sync_pro'),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _PhaseReadyView extends ConsumerWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-
-  const _PhaseReadyView({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 54, color: Theme.of(context).colorScheme.primary),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.headlineMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                subtitle,
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              FilledButton.icon(
-                onPressed: () =>
-                    ref.read(activeShellTabProvider.notifier).state = 0,
-                icon: const Icon(Icons.arrow_back_rounded),
-                label: const Text('Return to Layer 1 Cockpit'),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

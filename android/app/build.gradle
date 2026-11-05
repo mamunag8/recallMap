@@ -4,6 +4,12 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace "com.recallmap.app"
     compileSdk 34
@@ -27,13 +33,45 @@ android {
         resValue "string", "app_name", "RecallMap"
         resValue "string", "store_title", "RecallMap: FSRS & PDF Study"
         resValue "string", "store_subtitle", "Visual Spaced Repetition, Image Occlusion & Exam Map"
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                storePassword keystoreProperties['storePassword']
+            } else if (System.getenv("RECALLMAP_KEYSTORE_PATH") != null) {
+                keyAlias System.getenv("RECALLMAP_KEY_ALIAS")
+                keyPassword System.getenv("RECALLMAP_KEY_PASSWORD")
+                storeFile file(System.getenv("RECALLMAP_KEYSTORE_PATH"))
+                storePassword System.getenv("RECALLMAP_KEYSTORE_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig (keystorePropertiesFile.exists() || System.getenv("RECALLMAP_KEYSTORE_PATH") != null ? signingConfigs.release : signingConfigs.debug)
             minifyEnabled true
             shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false // Keep all 10 languages (including Bangla বাংলা, TR, AR) bundled for instant in-app switching!
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
         }
     }
 }

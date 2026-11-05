@@ -1,0 +1,9 @@
+{
+  "supported_ocr_models": [
+    "ben.traineddata",
+    "eng.traineddata",
+    "tur.traineddata",
+    "ara.traineddata",
+    "hin.traineddata"
+  ]
+}

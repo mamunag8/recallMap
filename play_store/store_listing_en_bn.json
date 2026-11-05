@@ -1,0 +1,28 @@
+{
+  "package_name": "com.recallmap.app",
+  "default_language": "en-US",
+  "category": "EDUCATION",
+  "content_rating": "EVERYONE",
+  "is_ad_supported": false,
+  "in_app_products": [
+    {
+      "sku": "recallmap_pro_lifetime",
+      "type": "managed_product",
+      "price_usd": "7.99",
+      "title": "RecallMap Pro (Lifetime Unlock)",
+      "description": "Unlocks Unlimited PDF Textbooks with Page Mastery Strips, Unlimited 1-Tap Auto-OCR Diagram Occlusion, Exam Countdown Planner, Memory Doctor Twin Radar, Commute TTS, and Automated Cloud Sync."
+    }
+  ],
+  "listings": {
+    "en-US": {
+      "title": "RecallMap: FSRS & PDF Study",
+      "short_description": "Visual Spaced Repetition, Image Occlusion, PDF Page Mastery & FSRS-6 Exam Map.",
+      "full_description": "RecallMap is the Visual FSRS-6 Exam & PDF Flashcard Studio engineered to help university students, medical/board candidates, researchers, and lifelong learners master textbooks and diagrams in half the time.\n\nUnlike traditional flashcard apps that trap your knowledge in isolated text lists, RecallMap visually connects every flashcard to its exact textbook PDF page, diagram bounding box, and 2D Concept RecallMap.\n\nKEY FEATURES:\n\n1. AT-A-GLANCE MEMORY COCKPIT\n• Exam Readiness Ring: Live weighted average of your FSRS-6 Retrievability R(t, S) across all active cards.\n• Interactive Mastery Bubble Map & Sunburst Ring: Spot decaying Crimson topics (R < 80%) and mastered Emerald topics (S >= 30 days) in under 2 seconds.\n• 365-Day Study Heatmap & 7-Day Workload Forecast.\n\n2. VISUAL PDF PAGE MASTERY STRIP & 2D CONCEPT GRAPH\n• Open any PDF textbook and see a live Red / Amber / Emerald retention bar beside every single page.\n• Highlight any sentence in a PDF and tap [Auto-Cloze] to create a card tethered to that exact page coordinate.\n• 60fps Force-Directed 2D Concept RecallMap with Crimson bottleneck pulse.\n\n3. 1-TAP AUTO-OCR DIAGRAM & IMAGE OCCLUSION STUDIO\n• Import any anatomy chart, engineering schematic, or handwritten diagram.\n• Tap 'Auto-Detect Labels (OCR)' to automatically box labels in English, Bangla (বাংলা), Turkish, Arabic, and Hindi.\n• Generate 10+ 'Hide All, Guess One' visual flashcards in 5 seconds.\n\n4. AUTHENTIC 21-PARAMETER FSRS-6 ENGINE & MEMORY DOCTOR\n• Powered by the unsimplified FSRS-6 DSR mathematical memory model.\n• Smart Exam Deadline Back-Calculator & Zero-Guilt Vacation Backlog Smoother.\n• Memory Doctor Clinic uses FTS5 BM25 similarity to detect Confusable Twin cards you are mixing up and highlights differing words side-by-side.\n\n5. ZERO-COST AI CARD BRIDGE, 2-WAY ANKI (.APKG) & BYOC CLOUD SYNC\n• Token-Saver compresses PDF text by 38% for $0 AI flashcard generation.\n• Full 2-way Anki (.apkg) import and export.\n• 100% Privacy-First: All data lives locally in your portable RecallMap_Vault/ and syncs via your own Google Drive, local folder, or WebDAV."
+    },
+    "bn-BD": {
+      "title": "RecallMap: FSRS ও PDF স্টাডি",
+      "short_description": "ভিজ্যুয়াল স্পেসড রিপিটিশন, ইমেজ অক্লুশন, পিডিএফ মাস্টারি ও FSRS-6 ফ্ল্যাশকার্ড।",
+      "full_description": "রিকলম্যাপ (RecallMap) হলো আধুনিক FSRS-6 অ্যালগরিদম এবং ভিজ্যুয়াল পিডিএফ ফ্ল্যাশকার্ড স্টুডিও, যা বিশ্ববিদ্যালয়, মেডিকেল, বিসিএস ও গবেষণার শিক্ষার্থীদের যেকোনো কঠিন বই ও ডায়াগ্রাম দীর্ঘমেয়াদী স্মৃতিতে ধরে রাখতে সাহায্য করে।\n\nপ্রধান বৈশিষ্ট্যসমূহ:\n• এক নজরে মেমোরি ককপিট: পরীক্ষার প্রস্তুতি রিং (Exam Readiness Ring), বাবল ম্যাপ এবং ৩৬৫-দিনের স্টাডি হিটম্যাপ।\n• পিডিএফ পেজ মাস্টারি স্ট্রিপ: বইয়ের প্রতিটি পৃষ্ঠার পাশে লাল, হলুদ ও সবুজ রিটেনশন বার দেখুন এবং যেকোনো লাইন হাইলাইট করে ১ ট্যাপে ক্লোজ (Cloze) কার্ড তৈরি করুন।\n• ১-ট্যাপ বাংলা ও ইংরেজি অটো-ওসিআর (Auto-OCR) ডায়াগ্রাম মাস্ক: যেকোনো চিত্র বা ডায়াগ্রামের লেবেল স্বয়ংক্রিয়ভাবে শনাক্ত করে ইমেজ অক্লুশন কার্ড তৈরি করুন।\n• মেমোরি ডক্টর ক্লিনিক: বারবার ভুলে যাওয়া কার্ড এবং বিভ্রান্তিকর সদৃশ কার্ড (Confusable Twins) পাশাপাশি তুলনা করুন।\n• ১০০% অফলাইন, বিজ্ঞাপনমুক্ত এবং নিজস্ব গুগল ড্রাইভে ফ্রি ক্লাউড সিঙ্ক।"
+    }
+  }
+}

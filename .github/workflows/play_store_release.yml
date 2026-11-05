@@ -1,0 +1,113 @@
+name: Build & Publish RecallMap to Google Play Store (.aab & .apk)
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      track:
+        description: 'Google Play Track (internal, alpha, beta, production)'
+        required: false
+        default: 'internal'
+
+jobs:
+  build-and-publish-android:
+    name: Build Signed Play Store AAB & APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout RecallMap Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter 3.24 Stable
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Ensure Android/iOS/Web Platform Wrapper Files Exist
+        run: |
+          cp pubspec.yaml pubspec.yaml.bak
+          cp android/app/build.gradle android/app/build.gradle.bak
+          cp android/app/src/main/AndroidManifest.xml android/app/src/main/AndroidManifest.xml.bak
+          flutter create --org com.recallmap --project-name recallmap --platforms=android,ios,web .
+          mv pubspec.yaml.bak pubspec.yaml
+          mv android/app/build.gradle.bak android/app/build.gradle
+          mv android/app/src/main/AndroidManifest.xml.bak android/app/src/main/AndroidManifest.xml
+          rm -f test/widget_test.dart
+
+      - name: Install Dart & Flutter Dependencies
+        run: flutter pub get
+
+      - name: Configure Production Upload Keystore (Google Play App Signing)
+        env:
+          UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$UPLOAD_KEYSTORE_BASE64" ]; then
+            echo "Using repository secret UPLOAD_KEYSTORE_BASE64..."
+            echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > android/app/recallmap-upload-keystore.jks
+            STORE_PASS="${KEYSTORE_PASSWORD:-RecallMapStore2026!}"
+            ALIAS_NAME="${KEY_ALIAS:-recallmap_upload}"
+            KEY_PASS="${KEY_PASSWORD:-RecallMapStore2026!}"
+          else
+            echo "Generating production upload keystore for Play Store App Signing..."
+            STORE_PASS="RecallMapStore2026!"
+            ALIAS_NAME="recallmap_upload"
+            KEY_PASS="RecallMapStore2026!"
+            keytool -genkey -v \
+              -keystore android/app/recallmap-upload-keystore.jks \
+              -alias "$ALIAS_NAME" \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -storepass "$STORE_PASS" \
+              -keypass "$KEY_PASS" \
+              -dname "CN=RecallMap Studio, OU=Mobile, O=RecallMap, L=Dhaka, S=Dhaka, C=BD"
+          fi
+
+          cat <<EOF > android/key.properties
+          storePassword=$STORE_PASS
+          keyPassword=$KEY_PASS
+          keyAlias=$ALIAS_NAME
+          storeFile=recallmap-upload-keystore.jks
+          EOF
+
+      - name: Build Signed Google Play Store Android App Bundle (.aab)
+        run: flutter build appbundle --release
+
+      - name: Build Signed Production Android APK (.apk)
+        run: flutter build apk --release
+
+      - name: Build Offline Web PWA
+        run: flutter build web --release
+
+      - name: Upload Signed Play Store AAB, APK & Keystore Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: RecallMap-PlayStore-Release-Bundle
+          path: |
+            build/app/outputs/bundle/release/app-release.aab
+            build/app/outputs/flutter-apk/app-release.apk
+            android/app/recallmap-upload-keystore.jks
+          retention-days: 90
+
+      - name: Publish to Google Play Console (When Service Account Secret is Configured)
+        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.recallmap.app
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: ${{ github.event.inputs.track || 'internal' }}
+          status: completed
+          whatsNewDirectory: play_store/whatsnew
