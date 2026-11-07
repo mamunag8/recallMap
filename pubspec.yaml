@@ -1,7 +1,7 @@
 name: recallmap
 description: "RecallMap: The Visual FSRS-6 Exam & PDF Flashcard Studio (Native iOS, Android & Offline WASM Web PWA)"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

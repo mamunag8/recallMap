@@ -44,6 +44,9 @@ jobs:
           cp android/gradle.properties /tmp/recallmap_bak/gradle.properties
           cp android/app/build.gradle /tmp/recallmap_bak/app_build.gradle
           cp android/app/proguard-rules.pro /tmp/recallmap_bak/proguard-rules.pro
+          if [ -f android/app/recallmap-upload-keystore.jks ]; then
+            cp android/app/recallmap-upload-keystore.jks /tmp/recallmap_bak/recallmap-upload-keystore.jks
+          fi
           cp android/app/src/main/AndroidManifest.xml /tmp/recallmap_bak/AndroidManifest.xml
           cp android/app/src/main/kotlin/com/recallmap/app/MainActivity.kt /tmp/recallmap_bak/MainActivity.kt
           cp web/index.html /tmp/recallmap_bak/index.html
@@ -59,6 +62,9 @@ jobs:
           cp /tmp/recallmap_bak/gradle.properties android/gradle.properties
           cp /tmp/recallmap_bak/app_build.gradle android/app/build.gradle
           cp /tmp/recallmap_bak/proguard-rules.pro android/app/proguard-rules.pro
+          if [ -f /tmp/recallmap_bak/recallmap-upload-keystore.jks ]; then
+            cp /tmp/recallmap_bak/recallmap-upload-keystore.jks android/app/recallmap-upload-keystore.jks
+          fi
           cp /tmp/recallmap_bak/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
           mkdir -p android/app/src/main/kotlin/com/recallmap/app
           cp /tmp/recallmap_bak/MainActivity.kt android/app/src/main/kotlin/com/recallmap/app/MainActivity.kt
@@ -82,6 +88,11 @@ jobs:
             STORE_PASS="${KEYSTORE_PASSWORD:-RecallMapStore2026!}"
             ALIAS_NAME="${KEY_ALIAS:-recallmap_upload}"
             KEY_PASS="${KEY_PASSWORD:-RecallMapStore2026!}"
+          elif [ -f android/app/recallmap-upload-keystore.jks ]; then
+            echo "Using committed production upload keystore..."
+            STORE_PASS="RecallMapStore2026!"
+            ALIAS_NAME="recallmap_upload"
+            KEY_PASS="RecallMapStore2026!"
           else
             echo "Generating production upload keystore for Play Store App Signing..."
             STORE_PASS="RecallMapStore2026!"
