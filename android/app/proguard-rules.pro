@@ -9,3 +9,6 @@
 # Keep SQLite3 FFI & Drift native bindings
 -keep class com.simolus3.sqlite3.** { *; }
 -dontwarn com.google.errorprone.annotations.**
+-dontwarn com.google.android.play.core.**
+-dontwarn javax.annotation.**
+-dontwarn org.codehaus.mojo.animal_sniffer.**
