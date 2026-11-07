@@ -23,7 +23,7 @@ Convert the compressed study material below into $targetCardCount high-yield, at
 
 STRICT OUTPUT FORMAT (One flashcard per line, pipe-delimited, NO markdown code fences or extra commentary):
 CLOZE | <Sentence with {{c1::key term}} or {{c2::second term}}> | Page <number> | #<tag>
-QA | <Concise Question> | <Exact Answer or $$LaTeX$$ Formula> | Page <number> | #<tag>
+QA | <Concise Question> | <Exact Answer or \$\$LaTeX\$\$ Formula> | Page <number> | #<tag>
 
 EXAMPLES:
 CLOZE | The {{c1::Sinoatrial (SA) node}} acts as the natural {{c2::pacemaker}} of the heart. | Page 1 | #cardiology

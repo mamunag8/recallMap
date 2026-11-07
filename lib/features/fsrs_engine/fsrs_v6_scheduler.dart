@@ -33,7 +33,7 @@ class FsrsV6Scheduler {
   const FsrsV6Scheduler({
     this.w = FsrsConstants.defaultWeights,
     this.desiredRetention = FsrsConstants.defaultTargetRetention,
-  }) : assert(w.length == 21, 'FSRS-6 requires exactly 21 weights w[0]..w[20]');
+  });
 
   /// Creates a scheduler instance from a deck's custom JSON weights and target retention.
   factory FsrsV6Scheduler.forDeck(DeckRecord? deck, {double? overrideRetention}) {

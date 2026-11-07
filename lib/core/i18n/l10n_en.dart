@@ -72,7 +72,7 @@ const Map<String, String> l10nEn = {
   'pdf_to_card': 'PDF to Card',
   'auto_ocr_mask': 'Auto-OCR Diagram Mask',
   'inline_outliner': 'Inline :: Concept Outliner',
-  'ai_card_generator': 'AI Card Generator ($0 Token-Saver)',
+  'ai_card_generator': r'AI Card Generator ($0 Token-Saver)',
   'page_mastery_strip': 'PDF Page Mastery Strip',
   'study_weak_pages': 'Study Weak Cards from Crimson Pages',
 
@@ -97,7 +97,7 @@ const Map<String, String> l10nEn = {
   'spotlight_step3_title': 'Step 3/4: 1-Tap Auto-OCR Diagram Occlusion',
   'spotlight_step3_desc':
       'Import any anatomy or engineering diagram and tap once to auto-box every label in English, বাংলা, Turkish, or Arabic.',
-  'spotlight_step4_title': 'Step 4/4: $0 AI Card Bridge & BYOC Cloud Sync',
+  'spotlight_step4_title': r'Step 4/4: $0 AI Card Bridge & BYOC Cloud Sync',
   'spotlight_step4_desc':
       'Compress PDFs by 38% to generate cards with zero API cost, and sync across iOS, Android, and Web via your own Google Drive.',
   'spotlight_next': 'Next Tip →',

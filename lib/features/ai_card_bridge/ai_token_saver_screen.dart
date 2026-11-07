@@ -210,7 +210,7 @@ class _AiTokenSaverScreenState extends ConsumerState<AiTokenSaverScreen> {
                         onPressed: _copyTokenSaverPrompt,
                         icon: const Icon(Icons.copy_all_rounded, size: 16),
                         label: const Text(
-                          'Step 1: Copy AI Card Generator Prompt ($0 API Cost)',
+                          r'Step 1: Copy AI Card Generator Prompt ($0 API Cost)',
                           style: TextStyle(fontSize: 12),
                         ),
                       ),

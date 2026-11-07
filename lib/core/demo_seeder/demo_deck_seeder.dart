@@ -210,7 +210,7 @@ class DemoDeckSeeder {
         sourceRectJson: jsonEncode({'x': 0.08, 'y': 0.36, 'w': 0.84, 'h': 0.22}),
         cardType: 'CLOZE',
         frontMd:
-            'Bernoulli Principle: An increase in fluid speed occurs simultaneously with a {{c1::decrease in static pressure::pressure change}} ($$P + \\frac{1}{2}\\rho v^2 + \\rho gh = \\text{const}$$).',
+            r'Bernoulli Principle: An increase in fluid speed occurs simultaneously with a {{c1::decrease in static pressure::pressure change}} ($$P + \frac{1}{2}\rho v^2 + \rho gh = \text{const}$$).',
         backMd:
             'Conservation of mechanical energy along a streamline in steady, incompressible, inviscid flow. বার্নুলির নীতি অনুযায়ী প্রবাহের বেগ বাড়লে স্থির চাপ হ্রাস পায়।',
         tagsJson: jsonEncode(['#hydraulics', '#bernoulli', '#page1']),
@@ -241,7 +241,7 @@ class DemoDeckSeeder {
         frontMd:
             'অসংকোচনীয় প্রবাহীর ধারাবাহিকতার সমীকরণটি (Continuity Equation) কী?',
         backMd:
-            '$$A_1 v_1 = A_2 v_2$$ — নলের প্রস্থচ্ছেদের ক্ষেত্রফল হ্রাস পেলে প্রবাহের বেগ সমানুপাতিক হারে বৃদ্ধি পায়।',
+            r'$$A_1 v_1 = A_2 v_2$$ — নলের প্রস্থচ্ছেদের ক্ষেত্রফল হ্রাস পেলে প্রবাহের বেগ সমানুপাতিক হারে বৃদ্ধি পায়।',
         tagsJson: jsonEncode(['#hydraulics', '#continuity', '#bangla']),
         state: 2,
         dueDate: now + 33 * dayMs,
@@ -270,7 +270,7 @@ class DemoDeckSeeder {
         frontMd:
             'In circular pipe flow, laminar flow occurs when Reynolds Number {{c1::Re < 2300}}, and fully turbulent flow occurs when {{c2::Re > 4000}}.',
         backMd:
-            '$$Re = \\frac{\\rho v D}{\\mu}$$ — Ratio of inertial forces to viscous forces.',
+            r'$$Re = \frac{\rho v D}{\mu}$$ — Ratio of inertial forces to viscous forces.',
         tagsJson: jsonEncode(['#hydraulics', '#reynolds', '#page2']),
         state: 2,
         dueDate: now + 2 * dayMs,
@@ -298,7 +298,7 @@ class DemoDeckSeeder {
         cardType: 'INLINE_NOTE',
         frontMd: 'Darcy-Weisbach Equation (Frictional Head Loss)',
         backMd:
-            '$$\\Delta h_f = f \\cdot \\frac{L}{D} \\cdot \\frac{v^2}{2g}$$ where $$f$$ is the Darcy-Moody friction factor.',
+            r'$$\Delta h_f = f \cdot \frac{L}{D} \cdot \frac{v^2}{2g}$$ where $$f$$ is the Darcy-Moody friction factor.',
         tagsJson: jsonEncode(['#hydraulics', '#darcy-weisbach', '#inline']),
         state: 2,
         dueDate: now + 28 * dayMs,
@@ -441,7 +441,7 @@ class DemoDeckSeeder {
         frontMd:
             'The {{c1::Sinoatrial (SA) node}} in the right atrium acts as the natural {{c2::pacemaker}} of the heart (60–100 bpm).',
         backMd:
-            'Spontaneous Phase 4 depolarization via funny current ($$I_f$$) and T-type $$\\text{Ca}^{2+}$$ channels.',
+            r'Spontaneous Phase 4 depolarization via funny current ($$I_f$$) and T-type $$\text{Ca}^{2+}$$ channels.',
         tagsJson: jsonEncode(['#cardiology', '#electrophysiology']),
         state: 2,
         dueDate: now + 1 * dayMs,

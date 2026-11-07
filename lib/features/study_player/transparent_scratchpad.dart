@@ -13,7 +13,7 @@ class ScratchpadStroke {
   });
 
   Map<String, dynamic> toJson() => {
-        'color': color.toARGB32(),
+        'color': color.value,
         'strokeWidth': strokeWidth,
         'points': points.map((p) => {'x': p.dx, 'y': p.dy}).toList(),
       };
